@@ -24,10 +24,10 @@ public class HttpServer {
 			port = 8080;
 		}
 
-		new HttpServer(port).run();
+		new HttpServer(port).start();
 	}
 
-	public void run() throws Exception {
+	public void start() throws Exception {
 		EventLoopGroup bossGroup = new NioEventLoopGroup();
 		EventLoopGroup worckerGroup = new NioEventLoopGroup();
 
