@@ -1,4 +1,4 @@
-package com.tribel.NettyHttpServer.Entity;
+package com.tribel.NettyHttpServer.entity;
 
 import java.util.Date;
 

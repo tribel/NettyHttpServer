@@ -1,4 +1,4 @@
-package com.tribel.NettyHttpServer.Entity;
+package com.tribel.NettyHttpServer.entity;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -17,7 +17,7 @@ public class RequestInfo {
 		uniqueRequest = new HashSet<>();
 		lastRequestTime = new Date();
 	}
-
+	
 	public String getIp() {
 		return ip;
 	}
