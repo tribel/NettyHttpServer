@@ -6,17 +6,12 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.ssl.SslContext;
-import io.netty.handler.ssl.util.SelfSignedCertificate;
+
 
 public class HttpServer {
 
-	// private final int port;
 	static final boolean SSL = System.getProperty("ssl") != null;
-	/*static final int PORT = Integer.parseInt(System.getProperty("port",
-			SSL ? "8443" : "8080"));  
 
-	*/
 	
 	static final int PORT = Integer.parseInt(System.getProperty("port", "8080"));
 	
@@ -36,14 +31,6 @@ public class HttpServer {
 	}
 
 	public void start() throws Exception {
-		final SslContext sslCtx;
-		if (SSL) {
-			SelfSignedCertificate ssc = new SelfSignedCertificate();
-			sslCtx = SslContext.newServerContext(ssc.certificate(),
-					ssc.privateKey());
-		} else {
-			sslCtx = null;
-		}
 
 		EventLoopGroup bossGroup = new NioEventLoopGroup();
 		EventLoopGroup worckerGroup = new NioEventLoopGroup();
@@ -52,7 +39,7 @@ public class HttpServer {
 			ServerBootstrap b = new ServerBootstrap();
 			b.group(bossGroup, worckerGroup)
 					.channel(NioServerSocketChannel.class)
-					.childHandler(new HttpServerInitializer(sslCtx))
+					.childHandler(new HttpServerInitializer())
 					.option(ChannelOption.SO_BACKLOG, 128)
 					.childOption(ChannelOption.SO_KEEPALIVE, true);
 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -37,7 +38,11 @@ public class ServerStatistic {
 		if (connectionInfo.size() >= CONNECTIONS_INFO_NUMBER_TO_STORE) {
 			connectionInfo.remove(0);
 		}
-
+		Iterator<Connection> iterator = connectionInfo.iterator();
+		while(iterator.hasNext()) {
+			if(iterator.next().getUri() == null) iterator.remove();
+		}
+		
 		connectionInfo.add(conIn);
 		totalRequest++;
 		addRequest(conIn);
@@ -60,8 +65,7 @@ public class ServerStatistic {
 
 	public synchronized void addRedirectInfo(String url) {
 		Integer redirectsCountForUrl = redirectsInfo.get(url);
-		redirectsCountForUrl = (redirectsCountForUrl != null) ? ++redirectsCountForUrl
-				: 1;
+		redirectsCountForUrl = (redirectsCountForUrl != null) ? ++redirectsCountForUrl: 1;
 		redirectsInfo.put(url, redirectsCountForUrl);
 	}
 

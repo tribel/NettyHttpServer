@@ -29,7 +29,7 @@ public class StatusResponse extends AbstractResponse {
 	}
 
 	@Override
-	protected HttpResponse createHttpResponseObject() {
+	protected HttpResponse createResponseObject() {
 
 		StringBuilder buf = generateStatistic();
 		boolean keepAlive = HttpHeaders.isKeepAlive(request);

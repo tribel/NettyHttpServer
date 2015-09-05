@@ -13,10 +13,10 @@ public abstract class AbstractResponse {
 	
 	public AbstractResponse(HttpRequest request) {
 		this.request = request;
-		this.response = createHttpResponseObject();
+		this.response = createResponseObject();
 	}
 	
-	protected abstract HttpResponse createHttpResponseObject();
+	protected abstract HttpResponse createResponseObject();
 	
 	public void response(ChannelHandlerContext ctx) {
 		ctx.write(response).addListener(ChannelFutureListener.CLOSE);

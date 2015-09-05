@@ -20,7 +20,7 @@ import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 
 public class HelloWorldResponse extends AbstractResponse {
 
-	public static final long WAIT_TIME = 10000;
+	public static final long WAIT_TIME = 3000;
 	public static final String MESSAGE = "Hello World!!!!";
 
 	public HelloWorldResponse(HttpRequest request) {
@@ -33,13 +33,12 @@ public class HelloWorldResponse extends AbstractResponse {
 	}
 
 	@Override
-	protected HttpResponse createHttpResponseObject() {
+	protected HttpResponse createResponseObject() {
 		boolean keepAlive = HttpHeaders.isKeepAlive(request);
 		FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, OK,
 				Unpooled.copiedBuffer(MESSAGE, CharsetUtil.UTF_8));
 		
 		response.headers().set(CONTENT_TYPE , "text/plain; charset=UTF-8");
-		
 		if(keepAlive) {
 			response.headers().set(CONTENT_LENGTH, response.content().readableBytes());
             response.headers().set(CONNECTION, HttpHeaders.Values.KEEP_ALIVE);

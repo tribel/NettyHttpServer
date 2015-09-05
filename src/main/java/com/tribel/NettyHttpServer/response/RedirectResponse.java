@@ -7,9 +7,12 @@ import com.tribel.NettyHttpServer.entity.ServerStatistic;
 
 import io.netty.handler.codec.http.DefaultFullHttpResponse;
 import io.netty.handler.codec.http.FullHttpResponse;
+import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
 import io.netty.handler.codec.http.QueryStringDecoder;
+import static io.netty.handler.codec.http.HttpHeaders.Names.CONNECTION;
+import static io.netty.handler.codec.http.HttpHeaders.Names.CONTENT_LENGTH;
 import static io.netty.handler.codec.http.HttpHeaders.Names.LOCATION;
 import static io.netty.handler.codec.http.HttpResponseStatus.FOUND;
 import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
@@ -24,7 +27,8 @@ public class RedirectResponse extends AbstractResponse{
 	}
 	
 	@Override
-	protected HttpResponse createHttpResponseObject() {
+	protected HttpResponse createResponseObject() {
+		boolean keepAlive = HttpHeaders.isKeepAlive(request);
 		String urlForRedirect = "";
 		Map<String, List<String>> params = new QueryStringDecoder(request.getUri()).parameters();
 		for (String key:params.keySet()){
@@ -37,7 +41,12 @@ public class RedirectResponse extends AbstractResponse{
         response.headers().set(LOCATION, urlForRedirect);
 
         ServerStatistic.getInstance().addRedirectInfo(urlForRedirect);
-
+        
+        if(keepAlive) {
+			response.headers().set(CONTENT_LENGTH, response.content().readableBytes());
+            response.headers().set(CONNECTION, HttpHeaders.Values.KEEP_ALIVE);
+		} 
+        
         return response;
  	}
 	

@@ -7,24 +7,15 @@ import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.http.HttpRequestDecoder;
 import io.netty.handler.codec.http.HttpResponseEncoder;
-import io.netty.handler.ssl.SslContext;
+
 
 public class HttpServerInitializer extends ChannelInitializer<SocketChannel> {
-
-	private final SslContext sslCtx;
-
-	public HttpServerInitializer(SslContext sslCtx) {
-		this.sslCtx = sslCtx;
-	}
+	
+	 public HttpServerInitializer() {}
 
 	@Override
 	public void initChannel(SocketChannel ch) throws Exception {
 		ChannelPipeline pipeline = ch.pipeline();
-
-		if (sslCtx != null) {
-			pipeline.addLast(sslCtx.newHandler(ch.alloc()));
-		}
-
 		Connection connectionInfo = new Connection();
 		
 		pipeline.addLast(new TrafficHandler(connectionInfo, 0, 0));

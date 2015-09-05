@@ -18,10 +18,10 @@ public class ResponseFactory {
 		this.httpRequest = request;
 		this.requestUri = request.getUri();
 		this.queryStringDecoder = new QueryStringDecoder(requestUri);
-		this.action = parseAction();
+		this.action = requestParse();
 	}
 
-	private String parseAction() {
+	private String requestParse() {
 		String[] segments = queryStringDecoder.path().split("/");
 		if (segments.length > 0) {
 			return segments[segments.length - 1];
@@ -40,7 +40,7 @@ public class ResponseFactory {
 				return new RedirectResponse(httpRequest);
 
 		}
-		return new DefaultResponse(httpRequest);
+		return null;//new DefaultResponse(httpRequest);
 	}
 	
 	public AbstractResponse geResponset() {

@@ -43,7 +43,7 @@ public class TrafficHandler extends ChannelTrafficShapingHandler {
 
         InetSocketAddress socketAddress = (InetSocketAddress) ctx.channel().remoteAddress();
         InetAddress inetaddress = socketAddress.getAddress();
-        String ipAddress = inetaddress.getHostAddress(); // IP address of client
+        String ipAddress = inetaddress.getLocalHost().getHostAddress(); 
         connectionInfo.setIp(ipAddress);
 
 
