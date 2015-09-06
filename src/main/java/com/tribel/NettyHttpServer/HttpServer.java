@@ -10,9 +10,6 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 
 public class HttpServer {
 
-	static final boolean SSL = System.getProperty("ssl") != null;
-
-	
 	static final int PORT = Integer.parseInt(System.getProperty("port", "8080"));
 	
 	public HttpServer(int port) {

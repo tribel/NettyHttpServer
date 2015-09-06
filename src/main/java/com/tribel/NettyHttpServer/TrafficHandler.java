@@ -40,21 +40,18 @@ public class TrafficHandler extends ChannelTrafficShapingHandler {
         }
 
         connectionInfo.setTime(new Date(timeStamp));
-
-        InetSocketAddress socketAddress = (InetSocketAddress) ctx.channel().remoteAddress();
+       
+		InetSocketAddress socketAddress = (InetSocketAddress) ctx.channel().remoteAddress();
         InetAddress inetaddress = socketAddress.getAddress();
         String ipAddress = inetaddress.getLocalHost().getHostAddress(); 
         connectionInfo.setIp(ipAddress);
 
-
-        int readSpeed = (int) (trafficCounter.lastReadThroughput() >> 10);
-        connectionInfo.setSpeedRead(readSpeed);
         connectionInfo.setReceivedByte(currentReadBytes);
 
-        int writeSpeed = (int) (trafficCounter.lastWriteThroughput() >> 10);
+        int writeSpeed = (int) trafficCounter.lastWriteThroughput();
         connectionInfo.setSpeedWrite(writeSpeed);
         connectionInfo.setSentByte(currentWriteBytes);
-
+        
         ServerStatistic.getInstance().addConnectionInfo(connectionInfo);
 
         super.channelReadComplete(ctx);

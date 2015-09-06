@@ -107,15 +107,14 @@ public class StatusResponse extends AbstractResponse {
 		stringBuilder.append("<table border=1><tr>" + "<th>ip</th>"
 				+ "<th>URI</th>" + "<th>timestamp</th>" + "<th>sent bytes</th>"
 				+ "<th>received bytes</th>" + "<th>write speed KB/s</th>"
-				+ "<th>read speed KB/s</th></tr>");
+				+ "</tr>");
 		for (Connection connectionInfo : serverStatistic.getConnectionInfo()) {
 			stringBuilder.append("<tr>" + "<td>" + connectionInfo.getIp()
 					+ "</td>" + "<td>" + connectionInfo.getUri() + "</td>"
 					+ "<td>" + connectionInfo.getTime() + "</td>" + "<td>"
 					+ connectionInfo.getSentByte() + "</td>" + "<td>"
 					+ connectionInfo.getReceivedByte() + "</td>" + "<td>"
-					+ connectionInfo.getSpeedWrite() + "</td>" + "<td>"
-					+ connectionInfo.getSpeedRead() + "</td></tr>");
+					+ connectionInfo.getSpeedWrite() + "</td>" );
 		}
 
 		stringBuilder.append("</table>");
