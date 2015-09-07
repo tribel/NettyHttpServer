@@ -8,8 +8,7 @@ public class Connection {
 	private String uri;
 	private long receivedByte;
 	private long sentByte;
-	private int speedWrite;
-	//private int speedRead;
+	private int speed;
 	private Date time;
 	
 	public Connection() {
@@ -47,21 +46,13 @@ public class Connection {
 		this.sentByte = sentByte;
 	}
 
-	public int getSpeedWrite() {
-		return speedWrite;
+	public int getSpeed() {
+		return speed;
 	}
 
-	public void setSpeedWrite(int speedWrite) {
-		this.speedWrite = speedWrite;
+	public void setSpeed(int speed) {
+		this.speed = speed;
 	}
-
-/*	public int getSpeedRead() {
-		return speedRead;
-	}
-
-	public void setSpeedRead(int speedRead) {
-		this.speedRead = speedRead;
-	}*/
 
 	public Date getTime() {
 		return time;
@@ -75,7 +66,7 @@ public class Connection {
 	public String toString() {
 		return "Connection [ip=" + ip + ", uri=" + uri + ", receivedByte="
 				+ receivedByte + ", sentByte=" + sentByte + ", speedWrite="
-				+ speedWrite +/* ", speedRead=" + speedRead + ", time="*/ time
+				+ speed + time
 				+ "]";
 	}
 	

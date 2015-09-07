@@ -3,6 +3,7 @@ package com.tribel.NettyHttpServer.response;
 import java.util.Map;
 
 import com.tribel.NettyHttpServer.entity.Connection;
+import com.tribel.NettyHttpServer.entity.RequestInfo;
 import com.tribel.NettyHttpServer.entity.ServerStatistic;
 
 import io.netty.buffer.Unpooled;
@@ -30,7 +31,7 @@ public class StatusResponse extends AbstractResponse {
 
 	@Override
 	protected HttpResponse createResponseObject() {
-
+		
 		StringBuilder buf = generateStatistic();
 		boolean keepAlive = HttpHeaders.isKeepAlive(request);
 		FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, OK,
@@ -51,10 +52,10 @@ public class StatusResponse extends AbstractResponse {
 	private StringBuilder generateStatistic() {
 		ServerStatistic serverStatistic = ServerStatistic.getInstance();
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("Total requests: "
-				+ serverStatistic.getTotalRequest() + "<br>");
-		stringBuilder.append("Active connections: "
-				+ serverStatistic.getActiveConnections() + "<br>");
+		stringBuilder.append("<center><h3>Общее количество запросов: "
+				+ serverStatistic.getTotalRequest() + "</h3>");
+		stringBuilder.append("<h3><center>Открытые соединения: "
+				+ serverStatistic.getActiveConnections() + "</h3></center><br>");
 		stringBuilder.append(generateRequestsForEachIpTable());
 		stringBuilder.append(generateRedirectsInfoTable());
 		stringBuilder.append(generate16LastConnectionsTable());
@@ -65,16 +66,16 @@ public class StatusResponse extends AbstractResponse {
 		StringBuilder stringBuilder = new StringBuilder();
 		ServerStatistic serverStatistic = ServerStatistic.getInstance();
 
-		stringBuilder.append("<table border=1><tr>" + "<th>ip</th>"
-				+ "<th>unique requests number</th>"
-				+ "<th>requests number</th>"
-				+ "<th>last request time</th></tr>");
-		for (ServerStatistic.ClientInfo clientInfo : serverStatistic
+		stringBuilder.append("<center><table border=1><tr>" + "<th>ip</th>"
+				+ "<th>количество уникальных запросов</th>"
+				+ "<th>количество запросов</th>"
+				+ "<th>время последнего запроса</th></tr>");
+		for (RequestInfo reqtInfo : serverStatistic
 				.getClientsInfo()) {
-			stringBuilder.append("<tr>" + "<td>" + clientInfo.getIp() + "</td>"
-					+ "<td>" + clientInfo.getUniqueRequests().size() + "</td>"
-					+ "<td>" + clientInfo.getRequestsCount() + "</td>" + "<td>"
-					+ clientInfo.getLastRequestTime() + "</td>" + "</tr>");
+			stringBuilder.append("<tr>" + "<td>" + reqtInfo.getIp() + "</td>"
+					+ "<td>" + reqtInfo.getUniqueRequests().size() + "</td>"
+					+ "<td>" + reqtInfo.getRequestsCount() + "</td>" + "<td>"
+					+ reqtInfo.getLastRequestTime() + "</td>" + "</tr></center>");
 		}
 		stringBuilder.append("</table>");
 
@@ -85,9 +86,9 @@ public class StatusResponse extends AbstractResponse {
 		StringBuilder stringBuilder = new StringBuilder();
 		ServerStatistic serverStatistic = ServerStatistic.getInstance();
 
-		stringBuilder.append("<br>Redirects info:");
+		stringBuilder.append("<center><br><h3>Информация о переадресациях:</h3>");
 		stringBuilder.append("<table border=1><tr>" + "<th>url</th>"
-				+ "<th>redirects number</th></tr>");
+				+ "<th>Количество переадресаций</th></tr>");
 		Map<String, Integer> redirectsInfo = serverStatistic.getRedirectsInfo();
 		for (String uri : redirectsInfo.keySet()) {
 			stringBuilder.append("<tr>" + "<td>" + uri + "</td>" + "<td>"
@@ -103,10 +104,10 @@ public class StatusResponse extends AbstractResponse {
 		StringBuilder stringBuilder = new StringBuilder();
 		ServerStatistic serverStatistic = ServerStatistic.getInstance();
 
-		stringBuilder.append("<br>Last 16 connections info:");
+		stringBuilder.append("<br><h3>Последние 16 соединений:</h3>");
 		stringBuilder.append("<table border=1><tr>" + "<th>ip</th>"
-				+ "<th>URI</th>" + "<th>timestamp</th>" + "<th>sent bytes</th>"
-				+ "<th>received bytes</th>" + "<th>write speed KB/s</th>"
+				+ "<th>URI</th>" + "<th>время</th>" + "<th>отправленые байты</th>"
+				+ "<th>полученые байты</th>" + "<th>скорость KB/s</th>"
 				+ "</tr>");
 		for (Connection connectionInfo : serverStatistic.getConnectionInfo()) {
 			stringBuilder.append("<tr>" + "<td>" + connectionInfo.getIp()
@@ -114,7 +115,7 @@ public class StatusResponse extends AbstractResponse {
 					+ "<td>" + connectionInfo.getTime() + "</td>" + "<td>"
 					+ connectionInfo.getSentByte() + "</td>" + "<td>"
 					+ connectionInfo.getReceivedByte() + "</td>" + "<td>"
-					+ connectionInfo.getSpeedWrite() + "</td>" );
+					+ connectionInfo.getSpeed() + "</td></center>" );
 		}
 
 		stringBuilder.append("</table>");

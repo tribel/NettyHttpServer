@@ -11,7 +11,7 @@ import io.netty.handler.codec.http.HttpResponseEncoder;
 
 public class HttpServerInitializer extends ChannelInitializer<SocketChannel> {
 	
-	 public HttpServerInitializer() {}
+	public HttpServerInitializer() {}
 
 	@Override
 	public void initChannel(SocketChannel ch) throws Exception {

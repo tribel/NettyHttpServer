@@ -10,9 +10,10 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 
 public class HttpServer {
 
-	static final int PORT = Integer.parseInt(System.getProperty("port", "8080"));
+	private int port;
 	
 	public HttpServer(int port) {
+		this.port = port;
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -40,7 +41,7 @@ public class HttpServer {
 					.option(ChannelOption.SO_BACKLOG, 128)
 					.childOption(ChannelOption.SO_KEEPALIVE, true);
 
-			ChannelFuture f = b.bind(PORT).sync();
+			ChannelFuture f = b.bind(this.port).sync();
 			f.channel().closeFuture().sync();
 
 		} finally {

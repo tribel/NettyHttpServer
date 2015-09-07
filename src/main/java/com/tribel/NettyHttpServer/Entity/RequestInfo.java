@@ -7,48 +7,57 @@ import java.util.Set;
 public class RequestInfo {
 
 	private String ip;
-	private int totalRequest;
+	private int requestsCount;
 	private Date lastRequestTime;
-	
-	private Set<String> uniqueRequest;
-	
+
+	private Set<String> uniqueRequests;
+
 	public RequestInfo(String ip) {
 		this.ip = ip;
-		uniqueRequest = new HashSet<>();
-		lastRequestTime = new Date();
+		requestsCount = 0;
+		lastRequestTime = new Date(System.currentTimeMillis());
+		uniqueRequests = new HashSet<>();
 	}
-	
+
+	public void addRequest(String request, Date timestamp) {
+		lastRequestTime = (timestamp != null) ? timestamp : lastRequestTime;
+		uniqueRequests.add(request);
+		requestsCount++;
+	}
+
 	public String getIp() {
 		return ip;
-	}
-
-	public void setIp(String ip) {
-		this.ip = ip;
-	}
-
-	public int getTotalRequest() {
-		return totalRequest;
 	}
 
 	public Date getLastRequestTime() {
 		return lastRequestTime;
 	}
 
-	public void setLastRequestTime(long lastRequestTime) {
-		this.lastRequestTime = new Date(lastRequestTime);
+	public Set<String> getUniqueRequests() {
+		return uniqueRequests;
 	}
 
-	public Set<String> getUniqueRequest() {
-		return uniqueRequest;
+	public int getRequestsCount() {
+		return requestsCount;
 	}
 
-	public void setUniqueRequest(Set<String> uniqueRequest) {
-		this.uniqueRequest = uniqueRequest;
+	@Override
+	public int hashCode() {
+		return ip.hashCode();
 	}
-	
-	public void addRequest(String request) {
-		totalRequest++;
-		uniqueRequest.add(request);
-		
+
+	@Override
+	public boolean equals(Object obj) {
+		return ((RequestInfo) obj).ip.equals(ip);
 	}
+
+	@Override
+	public String toString() {
+		return String
+				.format("ClientInfo[ip = %s,  requestsCount = %s, lastRequestTime = %s, uniqueRequests = %s]",
+						ip, requestsCount, lastRequestTime,
+						uniqueRequests.toString());
+	}
+
+
 }

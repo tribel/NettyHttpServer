@@ -38,18 +38,21 @@ public class TrafficHandler extends ChannelTrafficShapingHandler {
         if ("/favicon.ico".equals(connectionInfo.getUri())) {
             return;
         }
-
+        
         connectionInfo.setTime(new Date(timeStamp));
        
 		InetSocketAddress socketAddress = (InetSocketAddress) ctx.channel().remoteAddress();
         InetAddress inetaddress = socketAddress.getAddress();
-        String ipAddress = inetaddress.getLocalHost().getHostAddress(); 
+        
+        //@SuppressWarnings("static-access")
+      
+		String ipAddress = inetaddress.getHostAddress();
         connectionInfo.setIp(ipAddress);
 
         connectionInfo.setReceivedByte(currentReadBytes);
 
         int writeSpeed = (int) trafficCounter.lastWriteThroughput();
-        connectionInfo.setSpeedWrite(writeSpeed);
+        connectionInfo.setSpeed(writeSpeed);
         connectionInfo.setSentByte(currentWriteBytes);
         
         ServerStatistic.getInstance().addConnectionInfo(connectionInfo);

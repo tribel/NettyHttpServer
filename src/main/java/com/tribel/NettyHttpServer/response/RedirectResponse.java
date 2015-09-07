@@ -20,7 +20,7 @@ import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 
 public class RedirectResponse extends AbstractResponse{
 
-	public static final String GET_REQUEST_URL_KEY = "url";
+	public static final String REQUEST_URL_KEY = "url";
 	
 	public RedirectResponse(HttpRequest request) {
 		super(request);
@@ -32,7 +32,7 @@ public class RedirectResponse extends AbstractResponse{
 		String urlForRedirect = "";
 		Map<String, List<String>> params = new QueryStringDecoder(request.getUri()).parameters();
 		for (String key:params.keySet()){
-            if(key.equalsIgnoreCase(GET_REQUEST_URL_KEY)){
+            if(key.equalsIgnoreCase(REQUEST_URL_KEY)){
                 urlForRedirect = getUrlValueForRedirectFromUrlParams(params.get(key));
             }
         }
